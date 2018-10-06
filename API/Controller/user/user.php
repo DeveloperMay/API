@@ -18,10 +18,7 @@ class User {
 
 		header('Access-Control-Allow-Origin: *'); 
 		header("Content-type: application/json; charset=utf-8");
-		header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 		header('Content-Type', 'application/json');
-
-		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->_cor = new Model_GOD;
 		$this->_consulta = new Model_Bancodados_Consultas;
 		$this->_util = new Model_Pluggs_Utilit;
@@ -38,7 +35,6 @@ class User {
 	}
 
 	function id(){
-
 
 		/* EXIBE OS DADOS DE UM DETERMINADO USUÁRIO */
 		if(isset($_GET['id']) and is_numeric($_GET['id'])){
@@ -57,16 +53,21 @@ class User {
 			echo json_encode($salva);
 			exit;			
 		}
+	}
+
+	function del(){
 
 		/* REMOVE UM USUARIO PELO ID DA CONTA */
-		if(isset($_DELETE['id']) and is_numeric($_DELETE['id'])){
-			$id = $this->_util->basico($_DELETE['id']);
+		$json = json_decode(file_get_contents('php://input'), true);
+		if(isset($json['id']) and is_numeric($json['id'])){
+			$id = $this->_util->basico($json['id']);
 
 			$remove = $this->_consulta->delUser($id);
 
 			echo json_encode($remove);
 			exit;			
 		}
+
 		echo json_encode(array('res' => 'no', 'data' => 'ERRO: Informe o usuário'));
 		exit;
 	}

@@ -8,15 +8,15 @@
 	"VERSION":"0.0.1"
 }
 */
-class Model_Bancodados_Consultas {
+class Model_Bancodados_Consultas extends Model_Bancodados_Pessoa {
 
 	public $_conexao;
 
 	public $_util;
 
-	public $_hoje = HOJE;
-
 	public $_agora = AGORA;
+
+	public $_hoje = HOJE;
 
 	public $_ip = IP;
 

@@ -14,8 +14,15 @@ class Model_God{
 
 	public $_conexao;
 
+	public $_agora = AGORA;
+
+	public $_hoje = HOJE;
+
+	public $_ip = IP;
+
 	function __construct(){
 
+		exit;
 		$conexao = new Model_Bancodados_Conexao;
 		$this->_conexao = $conexao;
 

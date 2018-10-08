@@ -4,13 +4,12 @@
 	"AUTHOR":"Matheus Mayana",
 	"CREATED_DATA": "14/08/2018",
 	"MODEL": "GOD",
-	"LAST EDIT": "18/08/2018",
-	"VERSION":"0.0.2"
+	"LAST EDIT": "08/10/2018",
+	"VERSION":"0.0.43"
 }
 */
 
 class Model_God{
-
 
 	public $_conexao;
 
@@ -22,25 +21,25 @@ class Model_God{
 
 	function __construct(){
 
-		exit;
 		$conexao = new Model_Bancodados_Conexao;
 		$this->_conexao = $conexao;
-
-		$this->_checkTokenAPI();
 	}
 
-	private function _checkTokenAPI(){
+	function _checkTokenAPI($POST){
 
-		if(isset($_GET['t'])){
+		/* VERIFICA SE EXISTE O INDICE T (TOKEN)*/
+		if(isset($POST->t)){
 
-			if($_GET['t'] !== TOKEN_API){
-				echo json_encode(array('res' => 'no', 'info' => 'Erro: API Token inválido, seu vacilão'));
+			/* TOKEN ERRADO DA API*/
+			if($POST->t !== TOKEN_API){
+				echo json_encode(array('res' => 'no', 'info' => 'Erro: Se para arranjar serviço está dando trabalho, imagina emprego.'));
 				exit;
 			}
 
+		/* NÃO EXISTE TOKEN NA REQUISIÇÃO - FALSE */
 		}else{
 
-			echo json_encode(array('res' => 'no', 'info' => 'Erro: Informe o token para acessar a API!'));
+			echo json_encode(array('res' => 'no', 'info' => 'Erro: Se o Piauí se juntar com o Maranhão fica Piranhão?'));
 			exit;
 		}
 	}

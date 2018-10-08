@@ -4,8 +4,8 @@
 	"AUTHOR":"Matheus Maydana",
 	"CREATED_DATA": "14/08/2018",
 	"MODEL": "Conexao",
-	"LAST EDIT": "14/08/2018",
-	"VERSION":"0.0.1"
+	"LAST EDIT": "08/10/2018",
+	"VERSION":"0.0.2"
 }
 */
 
@@ -30,7 +30,7 @@ class Model_Bancodados_Conexao {
 			}else{
 
 				// MYSQL
-				$PDO = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.'', DB_USER, DB_PASS);
+				$PDO = new PDO('mysql:host='.DB_HOST.';charset=utf8; dbname='.DB_NAME.'', DB_USER, DB_PASS);
 				return $PDO;
 			}
 

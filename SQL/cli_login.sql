@@ -4,7 +4,7 @@
 
 CREATE TABLE public.cli_login
 (
-  log_codigo integer NOT NULL DEFAULT nextval('cli_login_log_codigo_seq'::regclass),
+  log_codigo serial,
   log_id character varying(100),
   log_senha character varying(100),
   log_status smallint, -- 1 Off...

@@ -4,7 +4,7 @@
 
 CREATE TABLE public.cad_pessoa
 (
-  pes_codigo integer NOT NULL DEFAULT nextval('cad_pessoa_pes_codigo_seq'::regclass),
+  pes_codigo serial,
   cli_codigo integer NOT NULL,
   pes_nome character varying(150) NOT NULL,
   pes_cpf character varying(20),

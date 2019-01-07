@@ -61,7 +61,7 @@ class Model_God{
 		/* SE O CLIENTE NÃO EXISTIR, RETORNA ERRO, NÃO PODE FAZER NADA NA API SEM O CLIENTE IDENTIFICADO */
 		if($clienteExiste === false){
 
-			echo json_encode(array('res' => 'no', 'data' => 'Procurei por tudo, por tudo mesmo e não encontrei este cliente: '.$POST['cli_codigo']));
+			echo json_encode(array('res' => 'no', 'data' => 'Huumm, me parece que você não tem acesso a essa API.'));
 			exit;
 		}
 

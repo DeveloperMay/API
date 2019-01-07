@@ -36,6 +36,7 @@ class Model_Bancodados_Pessoa{
 				$con = $this->_conexao->prepare('
 					INSERT INTO cad_pessoa 
 						(
+							cli_codigo,
 							pes_nome,
 							pes_nascimento, 
 							pes_sexo,
@@ -50,6 +51,7 @@ class Model_Bancodados_Pessoa{
 						)
 					VALUES
 						(
+							:cli_codigo,
 							:pes_nome,
 						 	:pes_nascimento, 
 							:pes_sexo,
@@ -63,6 +65,7 @@ class Model_Bancodados_Pessoa{
 							:pes_criacao
 						)
 				');
+				$con->bindParam(':cli_codigo', $dados['cli_codigo']);
 				$con->bindParam(':pes_nome', $dados['pes_nome']);
 				$con->bindParam(':pes_nascimento', $dados['pes_nascimento']);
 				$con->bindParam(':pes_sexo', $dados['pes_sexo']);
@@ -85,9 +88,9 @@ class Model_Bancodados_Pessoa{
 				$con = null;
 
 				/* SE NÃO HOUVE ERRO NO REGISTRO, RETURN OK */
-				if($fetch == false){
+				if($fetch === false){
 
-					return array('res' => 'ok', 'data' => 'Feito! registro salvo!');
+					return array('res' => 'ok', 'data' => $fetch);
 				}
 
 				/* SE HOUVER ERRO RETURN NO */

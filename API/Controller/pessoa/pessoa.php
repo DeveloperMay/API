@@ -28,7 +28,9 @@ class Pessoa {
 		$this->_consulta = new Model_Bancodados_Consultas;
 		$this->_util = new Model_Pluggs_Utilit;
 
+
 		$this->_method = json_decode(file_get_contents('php://input'), true);
+
 		//$json = json_decode(file_get_contents('php://input'), true);
 
 	}
@@ -106,10 +108,12 @@ class Pessoa {
 		/* CHECK TOKEN API */
 		$this->_cor->_checkTokenAPI($this->_method);
 
+
 		/* ADD UM NOVO USUARIO */
-		if(isset($this->_method['pes_nome'], $this->_method['pes_telefone']) and !empty($this->_method['pes_nome']) and is_numeric($this->_method['pes_telefone'])){
+		if(isset($this->_method['pes_nome'], $this->_method['pes_nascimento']) and !empty($this->_method['pes_nome']) and !empty($this->_method['pes_nascimento'])){
 
 			$dados = array();
+			$dados['cli_codigo'] 			= $this->checkIsset($this->_method, 'cli_codigo');
 			$dados['pes_nome'] 			= $this->checkIsset($this->_method, 'pes_nome');
 			$dados['pes_sexo'] 			= $this->checkIsset($this->_method, 'pes_sexo');
 			$dados['pes_nascimento']	= $this->checkIsset($this->_method, 'pes_nascimento');
@@ -133,6 +137,6 @@ class Pessoa {
 	/* check POST */
 	protected function checkIsset($post, $input){
 
-		return $this->_util->basico($post->$input ?? null);
+		return $this->_util->basico($post[$input] ?? null);
 	}
 }

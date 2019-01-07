@@ -25,6 +25,7 @@ class Model_Bancodados_Consultas extends Model_Bancodados_Pessoa {
 	function __construct(){
 
 		$conexao = new Model_Bancodados_Conexao;
+
 		$this->_conexao = $conexao->conexao();
 
 		$this->_util = new Model_Pluggs_Utilit;
@@ -59,30 +60,42 @@ class Model_Bancodados_Consultas extends Model_Bancodados_Pessoa {
 		return array('res' => 'no', 'data' => 'ERRO: Tente novamente mais tarde');
 	}
 
-	function addUser($nome, $idade){
+	function addUser($pes_nome, $pes_nascimento){
 
 		$con = $this->_conexao->prepare('
-			SELECT nome FROM user WHERE nome = :nome
+			SELECT pes_nome FROM cad_pessoa WHERE pes_nome = :pes_nome
 		');
-		$con->bindParam(':nome', $nome);
+		$con->bindParam(':pes_nome', $pes_nome);
 		$con->execute();
 		$fetch = $con->fetch(PDO::FETCH_ASSOC);
 		$con = null;
 
-		if(is_array($fetch) and isset($fetch['nome'])){
+		if(is_array($fetch) and isset($fetch['pes_nome'])){
 
 			return array('res' => 'no', 'data' => 'ERRO: Já existe um registro com este nome!');
 
 		}else{
 
 			$con = $this->_conexao->prepare('
-				INSERT INTO user (nome, idade, ip, data, hora) VALUES (:nome, :idade, :ip, :data, :hora)
+				INSERT INTO cad_pessoa (
+					pes_nome,
+					pes_nascimento,
+					pes_ip, 
+					pes_criacao, 
+					pes_atualizacao
+				) VALUES (
+					:pes_nome, 
+					:pes_nascimento, 
+					:pes_ip, 
+					:pes_criacao, 
+					:pes_atualizacao
+				)
 			');
-			$con->bindParam(':nome', $nome);
-			$con->bindParam(':idade', $idade);
-			$con->bindParam(':ip', $this->_ip);
-			$con->bindParam(':data', $this->_hoje);
-			$con->bindParam(':hora', $this->_agora);
+			$con->bindParam(':pes_nome', $pes_nome);
+			$con->bindParam(':pes_nascimento', $pes_nascimento);
+			$con->bindParam(':pes_ip', $this->_ip);
+			$con->bindParam(':pes_criacao', $this->_hoje);
+			$con->bindParam(':pes_atualizacao', $this->_agora);
 			$con->execute();
 			$fetch = $con->fetch(PDO::FETCH_ASSOC);
 			$con = null;

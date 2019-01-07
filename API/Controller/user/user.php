@@ -12,22 +12,24 @@ class User {
 
 	private $_cor;
 
-	private $_method;
+	private $_json;
 
 	function __construct(){
 
 		header('Access-Control-Allow-Origin: *'); 
 		header("Content-type: application/json; charset=utf-8");
 		header('Content-Type', 'application/json');
+		header("Access-Control-Allow-Headers: Content-Type");
 		$this->_cor = new Model_GOD;
 		$this->_consulta = new Model_Bancodados_Consultas;
 		$this->_util = new Model_Pluggs_Utilit;
 
-		//$json = json_decode(file_get_contents('php://input'), true);
+		$this->_json = json_decode(file_get_contents('php://input'), true);
 
 	}
 
 	function index(){
+
 
 		/* EXIBE TODOS OS USUARIOS */
 		echo json_encode($this->_consulta->getUsers());
@@ -42,17 +44,25 @@ class User {
 			echo json_encode(array('res' => 'ok', 'data' => array('nome' => 'Matheus Lindo', 'idade' => '28')));
 			exit;
 		}
+	}
+
+	function add(){
+
+		$this->_cor->_checkTokenAPI($this->_json);
 
 		/* ADD UM NOVO USUARIO */
-		if(isset($_POST['nome'], $_POST['idade']) and !empty($_POST['nome']) and is_numeric($_POST['idade'])){
-			$nome 	= $this->_util->basico($_POST['nome']);
-			$idade 	= $this->_util->basico($_POST['idade']);
+		if(isset($this->_json['pes_nome'], $this->_json['pes_nascimento']) and !empty($this->_json['pes_nome']) and is_numeric($this->_json['pes_nascimento'])){
+			$pes_nome 	= $this->_util->basico($this->_json['pes_nome']);
+			$pes_nascimento 	= $this->_util->basico($this->_json['pes_nascimento']);
 
-			$salva = $this->_consulta->addUser($nome, $idade);
+			$salva = $this->_consulta->addUser($pes_nome, $pes_nascimento);
 
 			echo json_encode($salva);
 			exit;			
 		}
+
+		echo json_encode(array('res' => 'no', 'data' => 'ERRO: informe o metodo para a request'));
+		exit;
 	}
 
 	function del(){

@@ -23,11 +23,12 @@ class Pessoa {
 		header('Access-Control-Allow-Origin: *');   
 		header('Content-Type: application/json; charset=utf-8');
 		header('Content-Type', 'application/json');
+		header("Access-Control-Allow-Headers: Content-Type");
 		$this->_cor = new Model_GOD;
 		$this->_consulta = new Model_Bancodados_Consultas;
 		$this->_util = new Model_Pluggs_Utilit;
 
-		$this->_method = json_decode(file_get_contents('php://input', true));
+		$this->_method = json_decode(file_get_contents('php://input'), true);
 		//$json = json_decode(file_get_contents('php://input'), true);
 
 	}
@@ -102,23 +103,21 @@ class Pessoa {
 
 	function add(){
 
-		$post = json_decode(file_get_contents('php://input', true));
-
 		/* CHECK TOKEN API */
-		$this->_cor->_checkTokenAPI($post);
+		$this->_cor->_checkTokenAPI($this->_method);
 
 		/* ADD UM NOVO USUARIO */
-		if(isset($post->pes_nome, $post->pes_telefone) and !empty($post->pes_nome) and is_numeric($post->pes_telefone)){
+		if(isset($this->_method['pes_nome'], $this->_method['pes_telefone']) and !empty($this->_method['pes_nome']) and is_numeric($this->_method['pes_telefone'])){
 
 			$dados = array();
-			$dados['pes_nome'] 			= $this->checkIsset($post, 'pes_nome');
-			$dados['pes_sexo'] 			= $this->checkIsset($post, 'pes_sexo');
-			$dados['pes_nascimento']	= $this->checkIsset($post, 'pes_nascimento');
-			$dados['pes_telefone'] 		= $this->checkIsset($post, 'pes_telefone');
-			$dados['pes_whats']	 		= $this->checkIsset($post, 'pes_whats');
-			$dados['pes_cpf']	 		= $this->checkIsset($post, 'pes_cpf');
-			$dados['pes_rg']	 		= $this->checkIsset($post, 'pes_rg');
-			$dados['pes_email']	 		= $this->checkIsset($post, 'pes_email');
+			$dados['pes_nome'] 			= $this->checkIsset($this->_method, 'pes_nome');
+			$dados['pes_sexo'] 			= $this->checkIsset($this->_method, 'pes_sexo');
+			$dados['pes_nascimento']	= $this->checkIsset($this->_method, 'pes_nascimento');
+			$dados['pes_telefone'] 		= $this->checkIsset($this->_method, 'pes_telefone');
+			$dados['pes_whats']	 		= $this->checkIsset($this->_method, 'pes_whats');
+			$dados['pes_cpf']	 		= $this->checkIsset($this->_method, 'pes_cpf');
+			$dados['pes_rg']	 		= $this->checkIsset($this->_method, 'pes_rg');
+			$dados['pes_email']	 		= $this->checkIsset($this->_method, 'pes_email');
 			$dados['pes_status']		= 1; // OFF
 
 			$salva = $this->_consulta->addPessoa($dados);

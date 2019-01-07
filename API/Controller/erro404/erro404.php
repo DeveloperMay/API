@@ -19,7 +19,7 @@ class Erro404 {
 
 	function index(){
 
-		echo json_encode(array('res' => 'no', 'info' => 'Controlador não encontrado.'));
+		echo json_encode(array('res' => 'no', 'data' => 'Controlador não encontrado.'));
 		exit;
 	}
 }
